@@ -60,11 +60,17 @@ export const get_movie_credits = (movieId) => {
   return handleApiCall(url, params);
 };
 
+export const get_image_url = (movie, size = "original") => {
+  if (movie?.backdrop_path) {
+    return `${BASE_IMG_API}${size}/${movie.backdrop_path}`;
+  }
+  return "no image found";
+};
+
 // handle async api calls and return the data
 const handleApiCall = async (url, params = {}) => {
   try {
     const response = await axios.get(url, { params });
-    console.log(response.data);
     return response.data;
   } catch (err) {
     console.log(err);
