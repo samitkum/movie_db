@@ -28,8 +28,8 @@ export const get_popular_movies = (page = 1) => {
   return handleApiCall(url, params);
 };
 
-export const get_latest_movies = () => {
-  const { url, params } = generate_url("movie/latest");
+export const get_top_rated_movies = (page = 1) => {
+  const { url, params } = generate_url("movie/top_rated", { page });
 
   return handleApiCall(url, params);
 };
@@ -62,11 +62,15 @@ export const get_movie_credits = (movieId) => {
 
 export const get_image_url = (movie, size = "original") => {
   if (movie?.backdrop_path) {
-    return `${BASE_IMG_API}${size}/${movie.backdrop_path}`;
+    return `${BASE_IMG_API}${size}${movie.backdrop_path}`;
   }
   return "no image found";
 };
 
+export const get_popular_tv_list = (page = 1) => {
+  const { url, params } = generate_url("tv/popular", { page });
+  return handleApiCall(url, params);
+};
 // handle async api calls and return the data
 const handleApiCall = async (url, params = {}) => {
   try {

@@ -1,8 +1,9 @@
 import { Carousel } from "react-responsive-carousel";
-import React, { useEffect, useState, memo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import React, { useEffect, useState } from "react";
+
 import { get_image_url, get_upcoming_movies } from "../../api";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const useStyles = makeStyles({
   image: {
@@ -31,9 +32,11 @@ const useStyles = makeStyles({
     fontSize: "1em",
   },
 });
+
 const Banner = () => {
   const [movies, setMovies] = useState(null);
   const classes = useStyles();
+
   useEffect(() => {
     const fetch_movie = async () => {
       await get_upcoming_movies().then((res) => {
@@ -43,6 +46,7 @@ const Banner = () => {
     };
     fetch_movie();
   }, []);
+
   return (
     <>
       <Carousel
@@ -78,4 +82,4 @@ const Banner = () => {
   );
 };
 
-export default memo(Banner);
+export default Banner;
