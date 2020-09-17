@@ -1,8 +1,9 @@
 import { Carousel } from "react-responsive-carousel";
 import { makeStyles } from "@material-ui/core/styles";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import { get_image_url, get_upcoming_movies } from "../../api";
+import { get_image_url } from "../../api";
+import { useSelector } from "react-redux";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const useStyles = makeStyles({
@@ -34,18 +35,8 @@ const useStyles = makeStyles({
 });
 
 const Banner = () => {
-  const [movies, setMovies] = useState(null);
   const classes = useStyles();
-
-  useEffect(() => {
-    const fetch_movie = async () => {
-      await get_upcoming_movies().then((res) => {
-        setMovies(res.results);
-      });
-      return;
-    };
-    fetch_movie();
-  }, []);
+  const upcoming_movies = useSelector((state) => state.upcoming_movies);
 
   return (
     <>
@@ -55,8 +46,8 @@ const Banner = () => {
         infiniteLoop
         className={classes.bannerContainer}
       >
-        {movies &&
-          movies.slice(0, 7).map((movie, idx) => {
+        {upcoming_movies &&
+          upcoming_movies.slice(0, 7).map((movie, idx) => {
             return (
               <div
                 key={movie.id}

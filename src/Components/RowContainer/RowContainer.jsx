@@ -1,13 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Row from "../Row";
-
-import {
-  get_popular_movies,
-  get_top_rated_movies,
-  get_upcoming_movies,
-  get_popular_tv_list,
-} from "../../api";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
@@ -18,12 +12,19 @@ const useStyles = makeStyles({
 
 const RowContainer = () => {
   const classes = useStyles();
+  const {
+    popular_movies,
+    upcoming_movies,
+    top_rated_movies,
+    popular_tv_series,
+  } = useSelector((state) => state);
+
   return (
     <div className={classes.root}>
-      <Row heading="Upcoming Movies" fetchUrl={get_upcoming_movies} />
-      <Row heading="Popular TV Series" fetchUrl={get_popular_tv_list} />
-      <Row heading="Latest Movies" fetchUrl={get_top_rated_movies} />
-      <Row heading="Popular Movies" fetchUrl={get_popular_movies} />
+      <Row heading="Upcoming Movies" list={upcoming_movies} />
+      <Row heading="Popular TV Series" list={popular_tv_series} />
+      <Row heading="Latest Movies" list={top_rated_movies} />
+      <Row heading="Popular Movies" list={popular_movies} />
     </div>
   );
 };

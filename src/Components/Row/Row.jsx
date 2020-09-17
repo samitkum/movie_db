@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import CardLayout from "../CardLayout";
@@ -12,7 +12,6 @@ const useStyles = makeStyles({
   },
   cardContainer: {
     display: "flex",
-    gap: "1em",
     overflowX: "scroll",
   },
   heading: {
@@ -26,17 +25,25 @@ const useStyles = makeStyles({
   },
   expand: {
     color: "tomato",
-    padding: "0.2em",
+    padding: "0.5em",
     cursor: "pointer",
   },
 });
 
-const Row = ({ heading, fetchUrl }) => {
-  const [list, setList] = useState(null);
-  useEffect(() => {
-    fetchUrl().then((res) => setList(res.results));
-  }, [fetchUrl]);
+const Row = ({ heading, list }) => {
   const classes = useStyles();
+
+  const RenderRowsResult = () =>
+    list?.map((movie) => {
+      return (
+        <CardLayout
+          key={movie.id}
+          imagePath={get_image_url(movie, "w300")}
+          movie={movie}
+        />
+      );
+    });
+
   return (
     <div className={classes.root}>
       <div className={classes.headingContainer}>
@@ -48,14 +55,7 @@ const Row = ({ heading, fetchUrl }) => {
         </Typography>
       </div>
       <div className={classes.cardContainer}>
-        {list &&
-          list.map((movie) => (
-            <CardLayout
-              key={movie.id}
-              imagePath={get_image_url(movie, "w500")}
-              title={movie?.title || movie?.name}
-            />
-          ))}
+        {list && <RenderRowsResult />}
       </div>
     </div>
   );
