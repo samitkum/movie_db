@@ -1,8 +1,8 @@
 import axios from "axios";
-
+import NoImageFound from "../no-image.png";
+import { useEffect } from "react";
 const BASE_API_URL = "https://api.themoviedb.org/3/";
 const BASE_IMG_API = "https://image.tmdb.org/t/p/";
-
 const API_KEY = "f67c6a87d3fb18353bdda796836d40f0";
 
 // generate the query
@@ -64,17 +64,33 @@ export const get_image_url = (movie, size = "original") => {
   if (movie?.backdrop_path) {
     return `${BASE_IMG_API}${size}${movie.backdrop_path}`;
   }
-  return "no image found";
+  return NoImageFound;
 };
 
 export const get_popular_tv_list = (page = 1) => {
   const { url, params } = generate_url("tv/popular", { page });
   return handleApiCall(url, params);
 };
+
+export const get_video_key_of_youtube = (movieId) => {
+  const { url, params } = generate_url(`movie/${movieId}/videos`);
+  return handleApiCall(url, params);
+};
+
+export const search_list = (query, page = 1, source) => {
+  const { url, params } = generate_url(`search/multi`, { page, query });
+  return handleApiCall(url, params, source);
+};
+
 // handle async api calls and return the data
-const handleApiCall = async (url, params = {}) => {
+const handleApiCall = async (url, params = {}, source) => {
   try {
-    const response = await axios.get(url, { params });
+    let token = null;
+    if (source) {
+      console.log("source is " + source);
+      token = source.token;
+    }
+    const response = await axios.get(url, { params, cancelToken: token });
     return response.data;
   } catch (err) {
     console.log(err);

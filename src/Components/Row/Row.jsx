@@ -2,8 +2,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import CardLayout from "../CardLayout";
-
-import { get_image_url } from "../../api";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -30,18 +29,12 @@ const useStyles = makeStyles({
   },
 });
 
-const Row = ({ heading, list }) => {
+const Row = ({ heading, list, to }) => {
   const classes = useStyles();
 
   const RenderRowsResult = () =>
-    list?.map((movie) => {
-      return (
-        <CardLayout
-          key={movie.id}
-          imagePath={get_image_url(movie, "w300")}
-          movie={movie}
-        />
-      );
+    list?.slice(0, 6).map((movie) => {
+      return <CardLayout key={movie.id} movie={movie} />;
     });
 
   return (
@@ -50,9 +43,16 @@ const Row = ({ heading, list }) => {
         <Typography variant="h5" className={classes.heading}>
           {heading}
         </Typography>
-        <Typography variant="body2" className={classes.expand}>
-          More
-        </Typography>
+        {list && (
+          <Typography
+            component={Link}
+            to={to}
+            variant="body2"
+            className={classes.expand}
+          >
+            More
+          </Typography>
+        )}
       </div>
       <div className={classes.cardContainer}>
         {list && <RenderRowsResult />}

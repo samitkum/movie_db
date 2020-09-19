@@ -4,6 +4,11 @@ import { useDispatch } from "react-redux";
 import Banner from "../Banner";
 import RowContainer from "../RowContainer";
 import RenderDetails from "../RenderDetails";
+import MovieLists from "../MovieLists";
+import Header from "../Header";
+import ScrollToTop from "../ScrollToTop";
+import theme from "../../CustomTheme/customTheme";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import {
   fetch_popular_movies,
   fetch_top_rated_movies,
@@ -19,17 +24,25 @@ const App = () => {
     dispatch(fetch_upcoming_movies());
   }, []);
   return (
-    <div>
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <Banner />
-            <RowContainer />
-          </Route>
-          <Route path="/movie/:movieId" component={RenderDetails} />
-        </Switch>
-      </Router>
-    </div>
+    <MuiThemeProvider theme={theme}>
+      <div>
+        <Router>
+          <Header />
+          <ScrollToTop />
+          <Switch>
+            <Route exact path="/">
+              <Banner />
+              <RowContainer />
+            </Route>
+            <Route path="/movie/:movieId" component={RenderDetails} />
+            <Route
+              path={["/movies/:movieType", "/search/:query"]}
+              component={MovieLists}
+            />
+          </Switch>
+        </Router>
+      </div>
+    </MuiThemeProvider>
   );
 };
 

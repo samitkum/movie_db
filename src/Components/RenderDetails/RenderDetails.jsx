@@ -8,10 +8,14 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import { useRouteMatch } from "react-router-dom";
 import { get_image_url } from "../../api";
-import { get_movie, get_recommended_movies } from "../../api";
+import {
+  get_movie,
+  get_recommended_movies,
+  get_video_key_of_youtube,
+} from "../../api";
 import Typography from "@material-ui/core/Typography";
 import Row from "../Row";
-
+import ReactPlayer from "react-player/lazy";
 const useStyles = makeStyles({
   card: {
     display: "flex",
@@ -37,10 +41,11 @@ const useStyles = makeStyles({
     color: "white",
   },
 });
-
+const YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 const RenderDetails = () => {
   const [movie, setMovie] = useState(null);
   const [movies, setMovies] = useState([]);
+  const [video, setVideo] = useState([]);
   const {
     params: { movieId },
   } = useRouteMatch();
@@ -61,17 +66,35 @@ const RenderDetails = () => {
     };
     fetch_movies();
   }, [movieId]);
+  useEffect(() => {
+    const fetch_movies = async () => {
+      await get_video_key_of_youtube(movieId).then((res) => {
+        setVideo(res.results);
+      });
+    };
+    fetch_movies();
+  }, [movieId]);
   const classes = useStyles();
   return (
     <div className={classes.selectedMovieContainer}>
       <Card className={classes.card}>
         {movie && (
           <>
-            <CardMedia
-              className={classes.cardImage}
-              title={movie?.title || movie?.name || movie?.original_title}
-              image={get_image_url(movie, "w500")}
-            />
+            {video.length === 0 ? (
+              <CardMedia
+                className={classes.cardImage}
+                component={ReactPlayer}
+                title={movie?.title || movie?.name || movie?.original_title}
+                image={get_image_url(movie, "w500")}
+              />
+            ) : (
+              <ReactPlayer
+                height="50vh"
+                width="100%"
+                controls
+                url={`${YOUTUBE_URL}${video[0].key}`}
+              />
+            )}
             <CardContent>
               <Typography variant="h5" color="primary">
                 {movie?.title || movie?.name || movie?.original_title}(
@@ -99,7 +122,7 @@ const RenderDetails = () => {
       <Card>
         <CardContent style={{ backgroundColor: "rgba(0, 0, 0, 0.9)" }}>
           {movies.length > 0 ? (
-            <Row heading="Recommendations" list={movies} />
+            <Row heading="Recommendations" list={movies} to={"/"} />
           ) : (
             <Typography variant="h5" className={classes.NoRecommendation}>
               No Recommendations available

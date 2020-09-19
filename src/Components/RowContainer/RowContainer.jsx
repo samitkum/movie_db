@@ -18,13 +18,28 @@ const RowContainer = () => {
     top_rated_movies,
     popular_tv_series,
   } = useSelector((state) => state);
-
   return (
     <div className={classes.root}>
-      <Row heading="Upcoming Movies" list={upcoming_movies} />
-      <Row heading="Popular TV Series" list={popular_tv_series} />
-      <Row heading="Latest Movies" list={top_rated_movies} />
-      <Row heading="Popular Movies" list={popular_movies} />
+      <Row
+        heading="Upcoming Movies"
+        list={upcoming_movies}
+        to="/movies/upcomingMovies"
+      />
+      <Row
+        heading="Popular TV Series"
+        list={popular_tv_series}
+        to="/movies/popularTvSeries"
+      />
+      <Row
+        heading="Top Rated Movies"
+        list={top_rated_movies}
+        to="/movies/topRatedMovies"
+      />
+      <Row
+        heading="Popular Movies"
+        list={popular_movies}
+        to="/movies/popularMovies"
+      />
     </div>
   );
 };
