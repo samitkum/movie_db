@@ -39,6 +39,7 @@ const MovieLists = () => {
       setMovies(top_rated_movies);
       return;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (setSearching === "searching") {
     if (!filterLists) {

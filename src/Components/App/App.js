@@ -25,6 +25,7 @@ const App = () => {
     dispatch(fetch_top_rated_movies());
     dispatch(fetch_popular_tv_series());
     dispatch(fetch_upcoming_movies());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const setSearching = useSelector((state) => state.setSearching);
 

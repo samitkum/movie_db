@@ -31,6 +31,7 @@ const Search = () => {
       dispatch(filter_lists(null));
     }
     return () => source.cancel();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchText]);
   const handleChange = (e) => {
     setSearchText(e.target.value);
