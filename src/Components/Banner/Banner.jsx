@@ -1,10 +1,10 @@
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { memo } from "react";
 
 import { get_image_url } from "../../api";
 import { useSelector } from "react-redux";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const useStyles = makeStyles({
   image: {
@@ -45,6 +45,10 @@ const Banner = () => {
         showThumbs={false}
         infiniteLoop
         className={classes.bannerContainer}
+        showStatus={false}
+        swipeable
+        emulateTouch
+        swipeScrollTolerance={5}
       >
         {upcoming_movies &&
           upcoming_movies.slice(0, 7).map((movie, idx) => {
