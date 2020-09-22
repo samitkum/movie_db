@@ -4,14 +4,14 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Slide from "@material-ui/core/Slide";
-import SearchBar from "../SearchBar";
-import Hidden from "@material-ui/core/Hidden";
-
+import Search from "./Search";
 import IconButton from "@material-ui/core/IconButton";
-
+import SearchIcon from "@material-ui/icons/Search";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { set_Searching } from "../../Redux/Action";
 
 const useStyles = makeStyles((theme) => ({
   headerLogo: {
@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  searchIcon: {
+    fontSize: 32,
+  },
 }));
 function HideOnScroll(props) {
   const { children } = props;
@@ -51,7 +54,8 @@ const Header = (props) => {
   const classes = useStyles();
   const { pathname } = useLocation();
   const history = useHistory();
-
+  const dispatch = useDispatch();
+  const setSearching = useSelector((state) => state.setSearching);
   const goBack = () => {
     history.goBack();
   };
@@ -59,27 +63,33 @@ const Header = (props) => {
     <HideOnScroll {...props}>
       <AppBar position="sticky">
         <Toolbar className={classes.header}>
-          {pathname !== "/" && (
-            <Hidden mdUp>
-              <IconButton
-                className={classes.iconButton}
-                aria-label="back"
-                onClick={goBack}
+          {setSearching === "default" ? (
+            <>
+              {pathname !== "/" && (
+                <IconButton
+                  className={classes.iconButton}
+                  aria-label="back"
+                  onClick={goBack}
+                >
+                  <ArrowBackIosIcon />
+                </IconButton>
+              )}
+              <Typography
+                variant="h4"
+                color="initial"
+                component={Link}
+                to="/"
+                className={classes.headerLogo}
               >
-                <ArrowBackIosIcon />
+                MovieDB
+              </Typography>
+              <IconButton onClick={() => dispatch(set_Searching("searching"))}>
+                <SearchIcon className={classes.searchIcon} />
               </IconButton>
-            </Hidden>
+            </>
+          ) : (
+            <Search />
           )}
-          <Typography
-            variant="h4"
-            color="initial"
-            component={Link}
-            to="/"
-            className={classes.headerLogo}
-          >
-            MovieDB
-          </Typography>
-          <SearchBar />
         </Toolbar>
       </AppBar>
     </HideOnScroll>

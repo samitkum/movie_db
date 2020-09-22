@@ -1,12 +1,13 @@
-import React from "react";
+import React, { memo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Row from "../Row";
 import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
-    padding: "1em",
-    paddingRight: "0em",
+    padding: "0.7em",
+    paddingRight: 0,
+    paddingLeft: 0,
   },
 });
 
@@ -44,4 +45,4 @@ const RowContainer = () => {
   );
 };
 
-export default RowContainer;
+export default memo(RowContainer);

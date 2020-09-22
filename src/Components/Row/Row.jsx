@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 const useStyles = makeStyles({
   root: {
     color: "white",
-    marginBottom: "1.5em",
   },
   cardContainer: {
     display: "flex",
@@ -26,6 +25,7 @@ const useStyles = makeStyles({
     color: "tomato",
     padding: "0.5em",
     cursor: "pointer",
+    textDecoration: "none",
   },
 });
 

@@ -6,6 +6,18 @@ const theme = createMuiTheme({
       main: "#454545",
     },
   },
+  overrides: {
+    MuiInputBase: {
+      input: {
+        color: "white",
+      },
+    },
+    MuiFormLabel: {
+      root: {
+        color: "white",
+      },
+    },
+  },
 });
 
 export default theme;

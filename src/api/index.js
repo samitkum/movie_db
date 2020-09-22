@@ -1,6 +1,5 @@
 import axios from "axios";
 import NoImageFound from "../no-image.png";
-import { useEffect } from "react";
 const BASE_API_URL = "https://api.themoviedb.org/3/";
 const BASE_IMG_API = "https://image.tmdb.org/t/p/";
 const API_KEY = "f67c6a87d3fb18353bdda796836d40f0";
@@ -61,8 +60,8 @@ export const get_movie_credits = (movieId) => {
 };
 
 export const get_image_url = (movie, size = "original") => {
-  if (movie?.backdrop_path) {
-    return `${BASE_IMG_API}${size}${movie.backdrop_path}`;
+  if (movie?.poster_path) {
+    return `${BASE_IMG_API}${size}${movie.poster_path}`;
   }
   return NoImageFound;
 };

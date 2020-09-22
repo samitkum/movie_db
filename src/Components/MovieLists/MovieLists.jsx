@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import CardLayout from "../CardLayout";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -21,27 +21,59 @@ const MovieLists = () => {
     upcoming_movies,
     top_rated_movies,
     popular_tv_series,
+    filterLists,
+    setSearching,
   } = useSelector((state) => state);
   const { pathname } = useLocation();
   useEffect(() => {
     if (pathname === "/movies/popularMovies") {
       setMovies(popular_movies);
+      return;
     } else if (pathname === "/movies/upcomingMovies") {
       setMovies(upcoming_movies);
+      return;
     } else if (pathname === "/movies/popularTvSeries") {
       setMovies(popular_tv_series);
+      return;
     } else if (pathname === "/movies/topRatedMovies") {
       setMovies(top_rated_movies);
+      return;
     }
   }, []);
-
-  return (
-    <div className={classes.root}>
-      {movies?.map((movie) => (
-        <CardLayout key={movie.id} movie={movie} />
-      ))}
-    </div>
-  );
+  if (setSearching === "searching") {
+    if (!filterLists) {
+      return (
+        <div
+          style={{
+            display: "grid",
+            placeItems: "center",
+            height: "90vh",
+            color: "white",
+            padding: "1em",
+          }}
+        >
+          <h1 style={{ textAlign: "center" }}>Search Movies and TV Shows</h1>
+        </div>
+      );
+    }
+    if (filterLists) {
+      return (
+        <div className={classes.root}>
+          {filterLists?.map((movie) => (
+            <CardLayout key={movie.id} movie={movie} />
+          ))}
+        </div>
+      );
+    }
+  } else {
+    return (
+      <div className={classes.root}>
+        {movies?.map((movie) => (
+          <CardLayout key={movie.id} movie={movie} />
+        ))}
+      </div>
+    );
+  }
 };
 
-export default MovieLists;
+export default memo(MovieLists);

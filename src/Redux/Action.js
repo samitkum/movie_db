@@ -9,6 +9,8 @@ import {
   GET_POPULAR_TV_SERIES,
   GET_TOP_RATED_MOVIES,
   GET_UPCOMING_MOVIES,
+  SET_SEARCHING,
+  FILTER_LISTS,
 } from "./Types";
 
 export const fetch_popular_movies = () => async (dispatch) => {
@@ -44,3 +46,13 @@ export const fetch_upcoming_movies = () => async (dispatch) => {
     });
   });
 };
+
+export const set_Searching = (text) => ({
+  type: SET_SEARCHING,
+  payload: text,
+});
+
+export const filter_lists = (movies) => ({
+  type: FILTER_LISTS,
+  payload: movies,
+});

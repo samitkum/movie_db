@@ -4,7 +4,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Chip from "@material-ui/core/Chip";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import { useRouteMatch } from "react-router-dom";
 import { get_image_url } from "../../api";
@@ -16,10 +16,11 @@ import {
 import Typography from "@material-ui/core/Typography";
 import Row from "../Row";
 import ReactPlayer from "react-player/lazy";
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   card: {
     display: "flex",
     flexWrap: "wrap",
+    borderRadius: 0,
   },
   cardImage: {
     width: "60vw",
@@ -29,8 +30,12 @@ const useStyles = makeStyles({
   },
   genresContainer: {
     display: "flex",
-    gap: "1em",
+    gap: "0.5em",
     flexWrap: "wrap",
+  },
+  genres: {
+    backgroundColor: theme.palette.primary.main,
+    color: "white",
   },
   selectedMovieContainer: {
     display: "flex",
@@ -40,7 +45,23 @@ const useStyles = makeStyles({
   NoRecommendation: {
     color: "white",
   },
-});
+  movieDetailsContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "1em",
+  },
+  rating: {
+    fontWeight: 800,
+  },
+  recommendationContent: {
+    paddingRight: 0,
+    paddingLeft: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.9)",
+  },
+  recommendationContainer: {
+    borderRadius: 0,
+  },
+}));
 const YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 const RenderDetails = () => {
   const [movie, setMovie] = useState(null);
@@ -95,32 +116,58 @@ const RenderDetails = () => {
                 url={`${YOUTUBE_URL}${video[0].key}`}
               />
             )}
-            <CardContent>
+            <CardContent className={classes.movieDetailsContainer}>
               <Typography variant="h5" color="primary">
                 {movie?.title || movie?.name || movie?.original_title}(
                 {new Date(movie.release_date).getFullYear()})
               </Typography>
-              <CircularProgress
-                variant="static"
-                value={movie.vote_average * 10}
-              />
+              {movie.vote_average * 10 > 0 && (
+                <Box position="relative">
+                  <CircularProgress
+                    variant="static"
+                    value={movie.vote_average * 10}
+                    size={50}
+                  />
+                  <Box
+                    top={15}
+                    left={11}
+                    bottom={0}
+                    right={0}
+                    position="absolute"
+                  >
+                    <Typography
+                      variant="body2"
+                      component="div"
+                      color="textSecondary"
+                      className={classes.rating}
+                    >{`${movie.vote_average * 10}%`}</Typography>
+                  </Box>
+                </Box>
+              )}
               <div className={classes.genresContainer}>
                 {movie.genres.map(({ id, name }) => (
-                  <Chip key={id} size="medium" label={name} />
+                  <Chip
+                    key={id}
+                    size="medium"
+                    label={name}
+                    className={classes.genres}
+                  />
                 ))}
               </div>
-              <Typography variant="h3" color="primary">
-                Overview
-              </Typography>
-              <Typography variant="body2" color="primary">
-                {movie.overview}
-              </Typography>
+              <div>
+                <Typography variant="h4" color="primary">
+                  Overview
+                </Typography>
+                <Typography variant="body2" color="primary">
+                  {movie.overview}
+                </Typography>
+              </div>
             </CardContent>
           </>
         )}
       </Card>
-      <Card>
-        <CardContent style={{ backgroundColor: "rgba(0, 0, 0, 0.9)" }}>
+      <Card className={classes.recommendationContainer}>
+        <CardContent className={classes.recommendationContent}>
           {movies.length > 0 ? (
             <Row heading="Recommendations" list={movies} to={"/"} />
           ) : (

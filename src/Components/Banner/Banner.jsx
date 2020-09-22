@@ -1,6 +1,6 @@
 import { Carousel } from "react-responsive-carousel";
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
+import React, { memo } from "react";
 
 import { get_image_url } from "../../api";
 import { useSelector } from "react-redux";
@@ -73,4 +73,4 @@ const Banner = () => {
   );
 };
 
-export default Banner;
+export default memo(Banner);

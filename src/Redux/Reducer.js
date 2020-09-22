@@ -3,6 +3,8 @@ import {
   GET_POPULAR_TV_SERIES,
   GET_TOP_RATED_MOVIES,
   GET_UPCOMING_MOVIES,
+  SET_SEARCHING,
+  FILTER_LISTS,
 } from "./Types";
 
 const initialState = {
@@ -12,6 +14,7 @@ const initialState = {
   popular_tv_series: null,
   selected_movie: null,
   bookmark: false,
+  setSearching: "default",
 };
 
 export default (state = initialState, action) => {
@@ -36,6 +39,10 @@ export default (state = initialState, action) => {
         ...state,
         popular_tv_series: action.payload,
       };
+    case SET_SEARCHING:
+      return { ...state, setSearching: action.payload, filterLists: null };
+    case FILTER_LISTS:
+      return { ...state, filterLists: action.payload };
     default:
       return state;
   }

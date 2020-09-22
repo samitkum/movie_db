@@ -5,14 +5,16 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { useHistory } from "react-router-dom";
 import { get_image_url } from "../../api";
-
+import { useDispatch } from "react-redux";
+import { set_Searching } from "../../Redux/Action";
 const useStyles = makeStyles({
   root: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     color: "white",
-    paddingRight: "1em",
+    paddingLeft: "0.5em",
+    paddingRight: "0.5em",
     paddingBottom: "1em",
     maxWidth: 245,
     minWidth: 160,
@@ -23,7 +25,8 @@ const useStyles = makeStyles({
     width: "100%",
     flex: "0 0 auto",
     height: "20vh",
-    opacity: "0.6",
+    opacity: "0.8",
+    transition: "250ms",
     "&:hover": {
       opacity: "1",
     },
@@ -37,7 +40,9 @@ const CardLayout = ({ movie }) => {
   const classes = useStyles();
   const title = movie?.title || movie?.name || movie?.original_title;
   const history = useHistory();
+  const dispatch = useDispatch();
   const handleMovieDetails = () => {
+    dispatch(set_Searching("default"));
     history.push(`/movie/${movie.id}`);
   };
   return (
