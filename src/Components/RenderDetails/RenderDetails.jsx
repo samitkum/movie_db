@@ -30,12 +30,12 @@ const useStyles = makeStyles((theme) => ({
   },
   genresContainer: {
     display: "flex",
-    gap: "0.5em",
     flexWrap: "wrap",
   },
   genres: {
     backgroundColor: theme.palette.primary.main,
     color: "white",
+    marginRight: "0.5em",
   },
   selectedMovieContainer: {
     display: "flex",
