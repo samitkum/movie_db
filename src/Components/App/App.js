@@ -6,7 +6,6 @@ import theme from "../../CustomTheme/customTheme";
 import { useSelector } from "react-redux";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import Spinner from "../Spinner";
-import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import {
   fetch_popular_movies,
