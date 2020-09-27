@@ -1,11 +1,13 @@
 import React, { useEffect, Suspense, lazy } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ScrollToTop from "../ScrollToTop";
 import theme from "../../CustomTheme/customTheme";
 import { useSelector } from "react-redux";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import Spinner from "../Spinner";
+import { AnimatePresence } from "framer-motion";
+import { useLocation } from "react-router-dom";
 import {
   fetch_popular_movies,
   fetch_top_rated_movies,
@@ -28,31 +30,29 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const setSearching = useSelector((state) => state.setSearching);
-
+  const location = useLocation();
   return (
     <MuiThemeProvider theme={theme}>
-      <Router>
-        <Suspense fallback={<Spinner />}>
-          <Header />
+      <Suspense fallback={<Spinner />}>
+        <Header />
 
-          <ScrollToTop />
-          {setSearching === "searching" ? (
-            <SearchBar />
-          ) : (
-            <Switch>
-              <Route exact path="/">
-                <Banner />
-                <RowContainer />
-              </Route>
-              <Route path="/movie/:movieId" component={RenderDetails} />
-              <Route
-                path={["/movies/:movieType", "/search/:query"]}
-                component={MovieLists}
-              />
-            </Switch>
-          )}
-        </Suspense>
-      </Router>
+        <ScrollToTop />
+        {setSearching === "searching" ? (
+          <SearchBar />
+        ) : (
+          <Switch location={location} key={location.key}>
+            <Route exact path="/">
+              <Banner />
+              <RowContainer />
+            </Route>
+            <Route path="/movie/:movieId" component={RenderDetails} />
+            <Route
+              path={["/movies/:movieType", "/search/:query"]}
+              component={MovieLists}
+            />
+          </Switch>
+        )}
+      </Suspense>
     </MuiThemeProvider>
   );
 };

@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { get_image_url } from "../../api";
 import { useDispatch } from "react-redux";
 import { set_Searching } from "../../Redux/Action";
+import { motion } from "framer-motion";
 const useStyles = makeStyles({
   root: {
     display: "flex",
@@ -25,17 +26,26 @@ const useStyles = makeStyles({
     width: "100%",
     flex: "0 0 auto",
     height: "20vh",
-    opacity: "0.8",
+    opacity: "1",
     transition: "250ms",
     "&:hover": {
-      opacity: "1",
+      opacity: "0.8",
+      boxShadow: "0px 0px 6px rgb(255,255,255)",
     },
   },
   media: {
     height: "100%",
   },
 });
-
+const cardVariant = {
+  hover: {
+    scale: 1.05,
+    transition: {
+      duration: 0.25,
+      yoyo: 2,
+    },
+  },
+};
 const CardLayout = ({ movie }) => {
   const classes = useStyles();
   const title = movie?.title || movie?.name || movie?.original_title;
@@ -46,7 +56,11 @@ const CardLayout = ({ movie }) => {
     history.push(`/movie/${movie.id}`);
   };
   return (
-    <div className={classes.root}>
+    <motion.div
+      variants={cardVariant}
+      whileHover="hover"
+      className={classes.root}
+    >
       <Card className={classes.card} onClick={handleMovieDetails}>
         <CardMedia
           className={classes.media}
@@ -56,7 +70,7 @@ const CardLayout = ({ movie }) => {
         />
       </Card>
       <Typography variant="body2">{title}</Typography>
-    </div>
+    </motion.div>
   );
 };
 

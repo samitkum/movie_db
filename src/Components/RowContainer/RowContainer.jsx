@@ -2,7 +2,18 @@ import React, { memo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Row from "../Row";
 import { useSelector } from "react-redux";
-
+import { motion } from "framer-motion";
+const RowContainerVariant = {
+  hidden: {
+    x: 1000,
+  },
+  visible: {
+    x: 0,
+    transition: {
+      duration: 0.3,
+    },
+  },
+};
 const useStyles = makeStyles({
   root: {
     padding: "0.7em",
@@ -10,7 +21,6 @@ const useStyles = makeStyles({
     paddingLeft: 0,
   },
 });
-
 const RowContainer = () => {
   const classes = useStyles();
   const {
@@ -20,7 +30,12 @@ const RowContainer = () => {
     popular_tv_series,
   } = useSelector((state) => state);
   return (
-    <div className={classes.root}>
+    <motion.div
+      variants={RowContainerVariant}
+      initial="hidden"
+      animate="visible"
+      className={classes.root}
+    >
       <Row
         heading="Upcoming Movies"
         list={upcoming_movies}
@@ -41,7 +56,7 @@ const RowContainer = () => {
         list={popular_movies}
         to="/movies/popularMovies"
       />
-    </div>
+    </motion.div>
   );
 };
 
