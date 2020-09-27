@@ -176,19 +176,19 @@ const RenderDetails = () => {
               </CardContent>
             </>
           </Card>
+          <Card className={classes.recommendationContainer}>
+            <CardContent className={classes.recommendationContent}>
+              {movies.length > 0 ? (
+                <Row heading="Recommendations" list={movies} to={"/"} />
+              ) : (
+                <Typography variant="h5" className={classes.NoRecommendation}>
+                  No Recommendations available
+                </Typography>
+              )}
+            </CardContent>
+          </Card>
         </>
       )}
-      <Card className={classes.recommendationContainer}>
-        <CardContent className={classes.recommendationContent}>
-          {movies.length > 0 ? (
-            <Row heading="Recommendations" list={movies} to={"/"} />
-          ) : (
-            <Typography variant="h5" className={classes.NoRecommendation}>
-              No Recommendations available
-            </Typography>
-          )}
-        </CardContent>
-      </Card>
     </motion.div>
   );
 };
