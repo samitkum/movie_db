@@ -3,6 +3,7 @@ import CardLayout from "../CardLayout";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
+import { motion, AnimatePresence } from "framer-motion";
 
 const useStyles = makeStyles({
   root: {
@@ -25,6 +26,16 @@ const MovieLists = () => {
     setSearching,
   } = useSelector((state) => state);
   const { pathname } = useLocation();
+  const list = {
+    visible: { x: 0 },
+    hidden: { x: 1000 },
+  };
+  const item = {
+    visible: { opacity: 1 },
+    hidden: { opacity: 0 },
+    exit: { opacity: 0 },
+  };
+
   useEffect(() => {
     if (pathname === "/movies/popularMovies") {
       setMovies(popular_movies);
@@ -68,11 +79,26 @@ const MovieLists = () => {
     }
   } else {
     return (
-      <div className={classes.root}>
-        {movies?.map((movie) => (
-          <CardLayout key={movie.id} movie={movie} />
-        ))}
-      </div>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={list}
+        className={classes.root}
+      >
+        <AnimatePresence>
+          {movies?.map((movie) => (
+            <motion.div
+              key={movie.id}
+              variants={item}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <CardLayout movie={movie} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
     );
   }
 };

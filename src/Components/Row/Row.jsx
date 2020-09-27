@@ -3,7 +3,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import CardLayout from "../CardLayout";
 import { Link } from "react-router-dom";
-
 const useStyles = makeStyles({
   root: {
     color: "white",
@@ -11,6 +10,8 @@ const useStyles = makeStyles({
   cardContainer: {
     display: "flex",
     overflowX: "scroll",
+    paddingTop: "1em",
+    overflowY: "hidden",
   },
   heading: {
     padding: "0.5em",

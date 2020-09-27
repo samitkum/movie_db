@@ -8,6 +8,7 @@ import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import { useRouteMatch } from "react-router-dom";
 import { get_image_url } from "../../api";
+import { motion } from "framer-motion";
 import {
   get_movie,
   get_recommended_movies,
@@ -16,6 +17,15 @@ import {
 import Typography from "@material-ui/core/Typography";
 import Row from "../Row";
 import ReactPlayer from "react-player/lazy";
+
+const renderVariant = {
+  hidden: {
+    y: -500,
+  },
+  visible: {
+    y: 0,
+  },
+};
 const useStyles = makeStyles((theme) => ({
   card: {
     display: "flex",
@@ -76,16 +86,11 @@ const RenderDetails = () => {
       await get_movie(movieId).then((res) => {
         setMovie(res);
       });
-    };
-    fetch_movie();
-  }, [movieId]);
-  useEffect(() => {
-    const fetch_movies = async () => {
       await get_recommended_movies(movieId).then((res) => {
         setMovies(res.results);
       });
     };
-    fetch_movies();
+    fetch_movie();
   }, [movieId]);
   useEffect(() => {
     const fetch_movies = async () => {
@@ -97,75 +102,82 @@ const RenderDetails = () => {
   }, [movieId]);
   const classes = useStyles();
   return (
-    <div className={classes.selectedMovieContainer}>
-      <Card className={classes.card}>
-        {movie && (
-          <>
-            {video.length === 0 ? (
-              <CardMedia
-                className={classes.cardImage}
-                component={ReactPlayer}
-                title={movie?.title || movie?.name || movie?.original_title}
-                image={get_image_url(movie, "w500")}
-              />
-            ) : (
-              <ReactPlayer
-                height="50vh"
-                width="100%"
-                controls
-                url={`${YOUTUBE_URL}${video[0].key}`}
-              />
-            )}
-            <CardContent className={classes.movieDetailsContainer}>
-              <Typography variant="h5" color="primary">
-                {movie?.title || movie?.name || movie?.original_title}(
-                {new Date(movie.release_date).getFullYear()})
-              </Typography>
-              {movie.vote_average * 10 > 0 && (
-                <Box position="relative">
-                  <CircularProgress
-                    variant="static"
-                    value={movie.vote_average * 10}
-                    size={50}
-                  />
-                  <Box
-                    top={15}
-                    left={11}
-                    bottom={0}
-                    right={0}
-                    position="absolute"
-                  >
-                    <Typography
-                      variant="body2"
-                      component="div"
-                      color="textSecondary"
-                      className={classes.rating}
-                    >{`${movie.vote_average * 10}%`}</Typography>
-                  </Box>
-                </Box>
+    <motion.div
+      variants={renderVariant}
+      initial="hidden"
+      animate="visible"
+      className={classes.selectedMovieContainer}
+    >
+      {movie && (
+        <>
+          <Card className={classes.card}>
+            <>
+              {video.length === 0 ? (
+                <CardMedia
+                  className={classes.cardImage}
+                  component={ReactPlayer}
+                  title={movie?.title || movie?.name || movie?.original_title}
+                  image={get_image_url(movie, "w500")}
+                />
+              ) : (
+                <ReactPlayer
+                  height="50vh"
+                  width="100%"
+                  controls
+                  url={`${YOUTUBE_URL}${video[0].key}`}
+                />
               )}
-              <div className={classes.genresContainer}>
-                {movie.genres.map(({ id, name }) => (
-                  <Chip
-                    key={id}
-                    size="medium"
-                    label={name}
-                    className={classes.genres}
-                  />
-                ))}
-              </div>
-              <div>
-                <Typography variant="h4" color="primary">
-                  Overview
+              <CardContent className={classes.movieDetailsContainer}>
+                <Typography variant="h5" color="primary">
+                  {movie?.title || movie?.name || movie?.original_title}(
+                  {new Date(movie.release_date).getFullYear()})
                 </Typography>
-                <Typography variant="body2" color="primary">
-                  {movie.overview}
-                </Typography>
-              </div>
-            </CardContent>
-          </>
-        )}
-      </Card>
+                {movie.vote_average * 10 > 0 && (
+                  <Box position="relative">
+                    <CircularProgress
+                      variant="static"
+                      value={movie.vote_average * 10}
+                      size={50}
+                    />
+                    <Box
+                      top={15}
+                      left={11}
+                      bottom={0}
+                      right={0}
+                      position="absolute"
+                    >
+                      <Typography
+                        variant="body2"
+                        component="div"
+                        color="textSecondary"
+                        className={classes.rating}
+                      >{`${movie.vote_average * 10}%`}</Typography>
+                    </Box>
+                  </Box>
+                )}
+                <div className={classes.genresContainer}>
+                  {movie.genres.map(({ id, name }) => (
+                    <Chip
+                      key={id}
+                      size="medium"
+                      label={name}
+                      className={classes.genres}
+                    />
+                  ))}
+                </div>
+                <div>
+                  <Typography variant="h4" color="primary">
+                    Overview
+                  </Typography>
+                  <Typography variant="body2" color="primary">
+                    {movie.overview}
+                  </Typography>
+                </div>
+              </CardContent>
+            </>
+          </Card>
+        </>
+      )}
       <Card className={classes.recommendationContainer}>
         <CardContent className={classes.recommendationContent}>
           {movies.length > 0 ? (
@@ -177,7 +189,7 @@ const RenderDetails = () => {
           )}
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 };
 
