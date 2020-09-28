@@ -16,6 +16,7 @@ import {
 import Typography from "@material-ui/core/Typography";
 import Row from "../Row";
 import ReactPlayer from "react-player/lazy";
+import Skeleton from "../SkeletonPlaceHolder";
 const useStyles = makeStyles((theme) => ({
   card: {
     display: "flex",
@@ -67,14 +68,17 @@ const RenderDetails = () => {
   const [movie, setMovie] = useState(null);
   const [movies, setMovies] = useState([]);
   const [video, setVideo] = useState([]);
+  const [loading, setLoading] = useState(true);
   const {
     params: { movieId },
   } = useRouteMatch();
 
   useEffect(() => {
     const fetch_movie = async () => {
+      setLoading(true);
       await get_movie(movieId).then((res) => {
         setMovie(res);
+        setLoading(false);
       });
     };
     fetch_movie();
@@ -96,11 +100,14 @@ const RenderDetails = () => {
     fetch_movies();
   }, [movieId]);
   const classes = useStyles();
+  if (loading) {
+    return <Skeleton />;
+  }
   return (
     <div className={classes.selectedMovieContainer}>
-      <Card className={classes.card}>
-        {movie && (
-          <>
+      {movie && (
+        <>
+          <Card className={classes.card}>
             {video.length === 0 ? (
               <CardMedia
                 className={classes.cardImage}
@@ -163,20 +170,20 @@ const RenderDetails = () => {
                 </Typography>
               </div>
             </CardContent>
-          </>
-        )}
-      </Card>
-      <Card className={classes.recommendationContainer}>
-        <CardContent className={classes.recommendationContent}>
-          {movies.length > 0 ? (
-            <Row heading="Recommendations" list={movies} to={"/"} />
-          ) : (
-            <Typography variant="h5" className={classes.NoRecommendation}>
-              No Recommendations available
-            </Typography>
-          )}
-        </CardContent>
-      </Card>
+          </Card>
+          <Card className={classes.recommendationContainer}>
+            <CardContent className={classes.recommendationContent}>
+              {movies.length > 0 ? (
+                <Row heading="Recommendations" list={movies} to={"/"} />
+              ) : (
+                <Typography variant="h5" className={classes.NoRecommendation}>
+                  No Recommendations available
+                </Typography>
+              )}
+            </CardContent>
+          </Card>
+        </>
+      )}
     </div>
   );
 };

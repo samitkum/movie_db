@@ -5,19 +5,19 @@ import ScrollToTop from "../ScrollToTop";
 import theme from "../../CustomTheme/customTheme";
 import { useSelector } from "react-redux";
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import Spinner from "../Spinner";
 import {
   fetch_popular_movies,
   fetch_top_rated_movies,
   fetch_popular_tv_series,
   fetch_upcoming_movies,
 } from "../../Redux/Action";
+import Skeleton from "../SkeletonPlaceHolder";
+import Header from "../Header";
 const Banner = lazy(() => import("../Banner"));
 const RowContainer = lazy(() => import("../RowContainer"));
 const RenderDetails = lazy(() => import("../RenderDetails"));
 const MovieLists = lazy(() => import("../MovieLists"));
 const SearchBar = lazy(() => import("../SearchBar"));
-const Header = lazy(() => import("../Header"));
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -32,10 +32,10 @@ const App = () => {
   return (
     <MuiThemeProvider theme={theme}>
       <Router>
-        <Suspense fallback={<Spinner />}>
-          <Header />
-
+        <Header />
+        <Suspense fallback={<Skeleton />}>
           <ScrollToTop />
+
           {setSearching === "searching" ? (
             <SearchBar />
           ) : (

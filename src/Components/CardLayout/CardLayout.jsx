@@ -25,10 +25,10 @@ const useStyles = makeStyles({
     width: "100%",
     flex: "0 0 auto",
     height: "20vh",
-    opacity: "0.8",
+    opacity: "1",
     transition: "250ms",
     "&:hover": {
-      opacity: "1",
+      opacity: "0.7",
     },
   },
   media: {
@@ -50,7 +50,7 @@ const CardLayout = ({ movie }) => {
       <Card className={classes.card} onClick={handleMovieDetails}>
         <CardMedia
           className={classes.media}
-          image={get_image_url(movie, "w300")}
+          image={get_image_url(movie, "w154")}
           title={title}
           loading="lazy"
         />

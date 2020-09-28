@@ -57,7 +57,7 @@ const Banner = () => {
                 key={movie.id}
                 style={{
                   backgroundImage: `linear-gradient(to bottom, transparent, rgba(0,0,0, 0.73)),
-                  url("${get_image_url(movie, "w500")}")`,
+                  url("${get_image_url(movie, "w342")}")`,
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
                   backgroundSize: "cover",
