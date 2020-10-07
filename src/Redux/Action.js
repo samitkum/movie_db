@@ -11,6 +11,7 @@ import {
   GET_UPCOMING_MOVIES,
   SET_SEARCHING,
   FILTER_LISTS,
+  THEME_TYPE,
 } from "./Types";
 
 export const fetch_popular_movies = () => async (dispatch) => {
@@ -55,4 +56,9 @@ export const set_Searching = (text) => ({
 export const filter_lists = (movies) => ({
   type: FILTER_LISTS,
   payload: movies,
+});
+
+export const toggle_theme = (type) => ({
+  type: THEME_TYPE,
+  payload: type,
 });

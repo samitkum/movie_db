@@ -17,7 +17,7 @@ import Typography from "@material-ui/core/Typography";
 import Row from "../Row";
 import ReactPlayer from "react-player/lazy";
 import Skeleton from "../SkeletonPlaceHolder";
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   card: {
     display: "flex",
     flexWrap: "wrap",
@@ -34,8 +34,8 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   genres: {
-    backgroundColor: theme.palette.primary.main,
-    color: "white",
+    //backgroundColor: theme.palette.primary.main,
+    //color: "white",
     marginRight: "0.5em",
   },
   selectedMovieContainer: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     gap: "1.5em",
   },
   NoRecommendation: {
-    color: "white",
+    //color: "white",
   },
   movieDetailsContainer: {
     display: "flex",
@@ -57,12 +57,12 @@ const useStyles = makeStyles((theme) => ({
   recommendationContent: {
     paddingRight: 0,
     paddingLeft: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.9)",
+    //backgroundColor: "rgba(0, 0, 0, 0.9)",
   },
   recommendationContainer: {
     borderRadius: 0,
   },
-}));
+});
 const YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 const RenderDetails = () => {
   const [movie, setMovie] = useState(null);
@@ -124,7 +124,7 @@ const RenderDetails = () => {
               />
             )}
             <CardContent className={classes.movieDetailsContainer}>
-              <Typography variant="h5" color="primary">
+              <Typography variant="h5">
                 {movie?.title || movie?.name || movie?.original_title}(
                 {new Date(movie.release_date).getFullYear()})
               </Typography>
@@ -145,7 +145,7 @@ const RenderDetails = () => {
                     <Typography
                       variant="body2"
                       component="div"
-                      color="textSecondary"
+                      //color="textSecondary"
                       className={classes.rating}
                     >{`${movie.vote_average * 10}%`}</Typography>
                   </Box>
@@ -162,12 +162,8 @@ const RenderDetails = () => {
                 ))}
               </div>
               <div>
-                <Typography variant="h4" color="primary">
-                  Overview
-                </Typography>
-                <Typography variant="body2" color="primary">
-                  {movie.overview}
-                </Typography>
+                <Typography variant="h4">Overview</Typography>
+                <Typography variant="body2">{movie.overview}</Typography>
               </div>
             </CardContent>
           </Card>

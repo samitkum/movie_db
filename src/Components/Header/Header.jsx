@@ -8,10 +8,11 @@ import Search from "./Search";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import Brightness4Icon from "@material-ui/icons/Brightness4";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { set_Searching } from "../../Redux/Action";
+import { set_Searching, toggle_theme } from "../../Redux/Action";
 
 const useStyles = makeStyles((theme) => ({
   headerLogo: {
@@ -56,8 +57,13 @@ const Header = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const setSearching = useSelector((state) => state.setSearching);
+  const type = useSelector((state) => state.type);
   const goBack = () => {
     history.goBack();
+  };
+  let theme = type === "light" ? "dark" : "light";
+  const changeTheme = () => {
+    dispatch(toggle_theme(theme));
   };
   return (
     <HideOnScroll {...props}>
@@ -83,9 +89,16 @@ const Header = (props) => {
               >
                 MovieDB
               </Typography>
-              <IconButton onClick={() => dispatch(set_Searching("searching"))}>
-                <SearchIcon className={classes.searchIcon} />
-              </IconButton>
+              <div>
+                <IconButton
+                  onClick={() => dispatch(set_Searching("searching"))}
+                >
+                  <SearchIcon className={classes.searchIcon} />
+                </IconButton>
+                <IconButton onClick={changeTheme}>
+                  <Brightness4Icon />
+                </IconButton>
+              </div>
             </>
           ) : (
             <Search />
@@ -95,4 +108,4 @@ const Header = (props) => {
     </HideOnScroll>
   );
 };
-export default Header;
+export default React.memo(Header);

@@ -5,6 +5,7 @@ import {
   GET_UPCOMING_MOVIES,
   SET_SEARCHING,
   FILTER_LISTS,
+  THEME_TYPE,
 } from "./Types";
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   selected_movie: null,
   bookmark: false,
   setSearching: "default",
+  type: "light",
 };
 
 export default (state = initialState, action) => {
@@ -43,6 +45,11 @@ export default (state = initialState, action) => {
       return { ...state, setSearching: action.payload, filterLists: null };
     case FILTER_LISTS:
       return { ...state, filterLists: action.payload };
+    case THEME_TYPE:
+      return {
+        ...state,
+        type: action.payload,
+      };
     default:
       return state;
   }

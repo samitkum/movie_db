@@ -5,9 +5,9 @@ import CardLayout from "../CardLayout";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
-  root: {
-    color: "white",
-  },
+  // root: {
+  //   color: theme.mainApp.color,
+  // },
   cardContainer: {
     display: "flex",
     overflowX: "scroll",

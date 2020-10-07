@@ -49,7 +49,7 @@ const MovieLists = () => {
             display: "grid",
             placeItems: "center",
             height: "90vh",
-            color: "white",
+            //color: "white",
             padding: "1em",
           }}
         >

@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    color: "white",
+    //color: "white",
     paddingLeft: "0.5em",
     paddingRight: "0.5em",
     paddingBottom: "1em",

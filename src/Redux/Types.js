@@ -5,3 +5,4 @@ export const GET_POPULAR_TV_SERIES = "GET_POPULAR_TV_SERIES";
 export const SET_SEARCHING = "SET_SEARCHING";
 export const FILTER_LISTS = "FILTER_LISTS";
 export const SET_BOOKMARK = "SET_BOOKMARK";
+export const THEME_TYPE = "THEME_TYPE";
